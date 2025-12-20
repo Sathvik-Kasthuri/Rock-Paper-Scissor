@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="game">
+        <div class="game-name">
+          <h2>ROCK</h2>
+          <h2>PAPER</h2>
+          <h2>SCISSORS</h2>
+        </div>
+
+        <div class="game-scores">
+          <div class="score-box">
+            <h2 class="score">COMPUTER SCORE</h2>
+            <span id="computer-score">0</span>
+          </div>
+
+          <div class="score-box">
+            <h2 class="score">YOUR SCORE</h2>
+            <span id="user-score">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="images">
+        <div class="line line-rock-paper"></div>
+        <div class="line line-rock-scissor"></div>
+        <div class="line line-paper-scissor"></div>
+
+        <img
+          class="choice rock"
+          data-choice="rock"
+          src="./assets/Rock.png"
+          alt=""
+        />
+        <img
+          class="choice paper"
+          data-choice="paper"
+          src="./assets/Paper.png"
+          alt=""
+        />
+        <img
+          class="choice scissor"
+          data-choice="scissor"
+          src="./assets/Scissor.png"
+          alt=""
+        />
+      </div>
+
+      <div class="result">
+        <div class="result-box user-result">
+          <p class="pick">YOU PICKED</p>
+          <div class="picked user-picked"></div>
+        </div>
+
+        <div class="result-box pc-result">
+          <p class="pick">PC PICKED</p>
+          <div class="picked pc-picked"></div>
+        </div>
+      </div>
+
+      <div class="final-result" style="display: none">
+        <h2 class="result-text"></h2>
+        <button class="play-again-btn" onclick="playAgain()">PLAY AGAIN</button>
+      </div>
+    </div>
+
+    <!-- HURRAY SCREEN -->
+    <div class="hurray-screen" style="display: none">
+      <img src="./assets/Cup.png" />
+      <h1>HURRAY</h1>
+      <p>YOU WON THE GAME</p>
+      <button class="won-btn" onclick="resetGame()">PLAY AGAIN</button>
+    </div>
+
+    <!-- actions -->
+    <div class="bottom-actions">
+      <div class="rules-popup">
+        <button class="rules-btn" onclick="popup()">RULES</button>
+        <div class="rules" style="display: none">
+          <button class="close-btn" onclick="closepopup()">X</button>
+          <h3>Game Rules</h3>
+          <p>Rock beats scissors</p>
+          <p>Scissors beat paper</p>
+          <p>Paper beats rock</p>
+        </div>
+      </div>
+      <button
+        class="next-btn"
+        onclick="showHurrayScreen()"
+        style="display: none"
+      >
+        NEXT
+      </button>
+    </div>
+   
+  </body>
+</html>
