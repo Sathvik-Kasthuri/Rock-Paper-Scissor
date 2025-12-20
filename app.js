@@ -8,7 +8,7 @@ let computerScore = localStorage.getItem("computerScore")
   ? Number(localStorage.getItem("computerScore"))
   : 0;
 
-// update UI on load
+// update UI
 document.getElementById("user-score").textContent = userScore;
 document.getElementById("computer-score").textContent = computerScore;
 
@@ -40,11 +40,6 @@ function handleUserClick(e) {
 document.querySelectorAll(".images img").forEach((img) => {
   img.addEventListener("click", handleUserClick);
 });
-
-// create score variables
-
-// let userScore = 0;
-// let computerScore = 0;
 
 // function to compare two choices
 
@@ -135,7 +130,6 @@ function playGame(userChoice) {
     pcPicked.classList.add("winner-ring");
     userPicked.classList.add("loser-ring");
   }
-  // tie → no rings
 
   if (winner === "user") {
     userScore++;
@@ -151,7 +145,7 @@ function playGame(userChoice) {
   localStorage.getItem("computerScore");
 }
 
-//playagain
+//playagain function
 
 function playAgain() {
   document.querySelector(".images").style.display = "block";
@@ -180,35 +174,30 @@ function showHurrayScreen() {
 //reset button
 
 function resetGame() {
-  // 1️⃣ Hide hurray screen
+  //  Hide hurray screen
   document.querySelector(".hurray-screen").style.display = "none";
 
-  // 2️⃣ Show main game container
+  //  Show main game container
   document.querySelector(".container").style.display = "block";
 
-  // 3️⃣ Show triangle images again
   const images = document.querySelector(".images");
   images.style.display = "block";
 
-  // 4️⃣ CLEAR picked results (MOST IMPORTANT 🔥)
   document.querySelector(".user-picked").innerHTML = "";
   document.querySelector(".pc-picked").innerHTML = "";
 
-  // 5️⃣ Hide result sections
+  //  Hide result sections
   document.querySelector(".result").style.display = "none";
   document.querySelector(".final-result").style.display = "none";
 
-  // 6️⃣ Reset all choice images (remove old classes)
   document.querySelectorAll(".choice").forEach((img) => {
     img.classList.remove("hide", "selected", "winner", "loser");
   });
 
-  // 7️⃣ Show all lines again
   document.querySelectorAll(".line").forEach((line) => {
     line.style.display = "block";
     line.classList.remove("hide");
   });
 
-  // 8️⃣ Hide NEXT button
   document.querySelector(".next-btn").style.display = "none";
 }
