@@ -34,24 +34,17 @@
         <div class="line line-rock-scissor"></div>
         <div class="line line-paper-scissor"></div>
 
-        <img
-          class="choice rock"
-          data-choice="rock"
-          src="./assets/Rock.png"
-          alt=""
-        />
-        <img
-          class="choice paper"
-          data-choice="paper"
-          src="./assets/Paper.png"
-          alt=""
-        />
-        <img
-          class="choice scissor"
-          data-choice="scissor"
-          src="./assets/Scissor.png"
-          alt=""
-        />
+        <div class="choice rock" data-choice="rock">
+          <img src="./assets/Rock.png" alt="rock" />
+        </div>
+
+        <div class="choice paper" data-choice="paper">
+          <img src="./assets/Paper.png" alt="paper" />
+        </div>
+
+        <div class="choice scissor" data-choice="scissor">
+          <img src="./assets/Scissor.png" alt="scissor" />
+        </div>
       </div>
 
       <div class="result">
@@ -60,26 +53,31 @@
           <div class="picked user-picked"></div>
         </div>
 
+        <!-- CENTER RESULT -->
+        <div class="final-result">
+          <h2 class="result-text">
+            <span class="line-1"></span><br />
+            <span class="line-2"></span>
+          </h2>
+          <button class="play-again-btn" onclick="playAgain()">
+            PLAY AGAIN
+          </button>
+        </div>
+
         <div class="result-box pc-result">
           <p class="pick">PC PICKED</p>
           <div class="picked pc-picked"></div>
         </div>
       </div>
-
-      <div class="final-result" style="display: none">
-        <h2 class="result-text"></h2>
-        <button class="play-again-btn" onclick="playAgain()">PLAY AGAIN</button>
-      </div>
     </div>
-     
+
     <div class="hurray-screen" style="display: none">
       <img src="./assets/Cup.png" />
       <h1>HURRAY</h1>
       <p>YOU WON THE GAME</p>
-      <button class="won-btn" onclick="resetGame()">PLAY AGAIN</button>
+      <button class="play-again-btn" onclick="resetGame()">PLAY AGAIN</button>
     </div>
 
-  
     <div class="bottom-actions">
       <div class="rules-popup">
         <button class="rules-btn" onclick="popup()">RULES</button>
@@ -99,6 +97,5 @@
         NEXT
       </button>
     </div>
-
   </body>
 </html>

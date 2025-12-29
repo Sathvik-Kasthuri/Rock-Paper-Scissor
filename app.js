@@ -32,20 +32,22 @@ function getComputerChoice() {
 //user choice
 
 function handleUserClick(e) {
-  const userChoice = e.target.dataset.choice;
+  const choiceDiv = e.currentTarget;
+  const userChoice = choiceDiv.dataset.choice;
   playGame(userChoice);
 }
+
 // when the user click the image, js reads its choice and send it to playGame()
 
-document.querySelectorAll(".images img").forEach((img) => {
-  img.addEventListener("click", handleUserClick);
+document.querySelectorAll(".choice").forEach((choice) => {
+  choice.addEventListener("click", handleUserClick);
 });
 
 // function to compare two choices
 
 function getWinner(user, computer) {
   if (user === computer) {
-    return "draw";
+    return "tie up";
   }
 
   if (
@@ -74,11 +76,11 @@ function playGame(userChoice) {
 
   // get image sources
   const userImgSrc = document.querySelector(
-    `[data-choice="${userChoice}"]`
+    `[data-choice="${userChoice}"] img`
   ).src;
 
   const computerImgSrc = document.querySelector(
-    `[data-choice="${computerChoice}"]`
+    `[data-choice="${computerChoice}"] img`
   ).src;
 
   // show picked images
@@ -99,20 +101,25 @@ function playGame(userChoice) {
 
   resultBox.style.display = "block";
 
+  const line1 = document.querySelector(".line-1");
+  const line2 = document.querySelector(".line-2");
   if (winner === "user") {
-    resultText.textContent = "YOU WIN AGAINST PC";
+    line1.textContent = "YOU WIN";
+    line2.textContent = "AGAINST PC";
     userScore++;
+    localStorage.setItem("userScore", userScore);
     document.getElementById("user-score").textContent = userScore;
-
     nextBtn.style.display = "inline-block";
   } else if (winner === "computer") {
-    resultText.textContent = "YOU LOSE AGAINST PC";
+    line1.textContent = "YOU LOSE";
+    line2.textContent = "AGAINST PC";
     computerScore++;
+    localStorage.setItem("computerScore", computerScore);
     document.getElementById("computer-score").textContent = computerScore;
-
     nextBtn.style.display = "none";
   } else {
-    resultText.textContent = "TIE UP";
+    line1.textContent = "TIE UP";
+    line2.textContent = "";
     nextBtn.style.display = "none";
   }
 
@@ -120,29 +127,14 @@ function playGame(userChoice) {
   const pcPicked = document.querySelector(".pc-picked");
 
   // reset old states
-  userPicked.classList.remove("winner-ring", "loser-ring");
-  pcPicked.classList.remove("winner-ring", "loser-ring");
+  userPicked.classList.remove("winner-ring");
+  pcPicked.classList.remove("winner-ring");
 
   if (winner === "user") {
     userPicked.classList.add("winner-ring");
-    pcPicked.classList.add("loser-ring");
   } else if (winner === "computer") {
     pcPicked.classList.add("winner-ring");
-    userPicked.classList.add("loser-ring");
   }
-
-  if (winner === "user") {
-    userScore++;
-    document.getElementById("user-score").textContent = userScore;
-    localStorage.setItem("userScore", userScore);
-  } else if (winner === "computer") {
-    computerScore++;
-    document.getElementById("computer-score").textContent = computerScore;
-    localStorage.setItem("computerScore", computerScore);
-  }
-
-  localStorage.getItem("userScore");
-  localStorage.getItem("computerScore");
 }
 
 //playagain function
