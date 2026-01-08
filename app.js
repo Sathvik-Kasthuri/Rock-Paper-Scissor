@@ -1,111 +1,100 @@
-//we put at the top so the scores are loaded before any logic runs
+//scores
+let userScore = Number(localStorage.getItem("userScore")) || 0;
+let computerScore = Number(localStorage.getItem("computerScore")) || 0;
 
-let userScore = localStorage.getItem("userScore")
-  ? Number(localStorage.getItem("userScore"))
-  : 0;
-
-let computerScore = localStorage.getItem("computerScore")
-  ? Number(localStorage.getItem("computerScore"))
-  : 0;
-
-// update UI
 document.getElementById("user-score").textContent = userScore;
 document.getElementById("computer-score").textContent = computerScore;
 
-function popup() {
-  document.getElementsByClassName("rules")[0].style.display = "block";
-}
-
-function closepopup() {
-  document.getElementsByClassName("rules")[0].style.display = "none";
-}
-
-// computer choices automatically
 
 const choices = ["rock", "paper", "scissor"];
-
 function getComputerChoice() {
-  const randomIndex = Math.floor(Math.random() * 3);
-  return choices[randomIndex];
+  return choices[Math.floor(Math.random() * choices.length)];
 }
-
-//user choice
-
-function handleUserClick(e) {
-  const choiceDiv = e.currentTarget;
-  const userChoice = choiceDiv.dataset.choice;
-  playGame(userChoice);
-}
-
-// when the user click the image, js reads its choice and send it to playGame()
-
-document.querySelectorAll(".choice").forEach((choice) => {
-  choice.addEventListener("click", handleUserClick);
-});
-
-// function to compare two choices
 
 function getWinner(user, computer) {
-  if (user === computer) {
-    return "tie up";
-  }
-
+  if (user === computer) return "tie";
   if (
     (user === "rock" && computer === "scissor") ||
     (user === "paper" && computer === "rock") ||
     (user === "scissor" && computer === "paper")
-  ) {
+  )
     return "user";
-  }
-
   return "computer";
 }
 
-//playGame Function
+
+const imagesWrap = document.querySelector(".images");
+const triangle = document.querySelector(".triangle"); // hide whole triangle + choices
+const resultArea = document.querySelector(".result");
+const finalResult = document.querySelector(".final-result");
+const userPickedEl = document.querySelector(".user-picked");
+const pcPickedEl = document.querySelector(".pc-picked");
+const line1 = document.querySelector(".line-1");
+const line2 = document.querySelector(".line-2");
+const nextBtn = document.querySelector(".next-btn");
+
+
+resultArea.style.display = "none";
+finalResult.style.display = "none";
+nextBtn.style.display = "none";
+
+
+document.querySelectorAll(".choice").forEach((choice) => {
+  choice.addEventListener("click", (e) =>
+    handleUserClick(e.currentTarget.dataset.choice)
+  );
+});
+
+function handleUserClick(userChoice) {
+  playGame(userChoice);
+}
+
+
 function playGame(userChoice) {
   const computerChoice = getComputerChoice();
 
-  // hide triangle & lines
+  // Hide triangle
   document.querySelector(".images").style.display = "none";
-  document
-    .querySelectorAll(".line")
-    .forEach((line) => (line.style.display = "none"));
-
-  // show result section
   document.querySelector(".result").style.display = "flex";
 
-  // get image sources
-  const userImgSrc = document.querySelector(
-    `[data-choice="${userChoice}"] img`
-  ).src;
+  const userPickedBox = document.querySelector(".user-picked .clone");
+  const pcPickedBox = document.querySelector(".pc-picked .clone");
 
-  const computerImgSrc = document.querySelector(
-    `[data-choice="${computerChoice}"] img`
-  ).src;
+  const userGlow = document.querySelector(".user-picked .winner-glow");
+  const pcGlow = document.querySelector(".pc-picked .winner-glow");
 
-  // show picked images
-  document.querySelector(
-    ".user-picked"
-  ).innerHTML = `<img src="${userImgSrc}" class="selected">`;
+  // Reset
+  userGlow.style.display = "none";
+  pcGlow.style.display = "none";
+  userPickedBox.innerHTML = "";
+  pcPickedBox.innerHTML = "";
 
-  document.querySelector(
-    ".pc-picked"
-  ).innerHTML = `<img src="${computerImgSrc}" class="selected">`;
+  
+  const userChoiceEl = document
+    .querySelector(`[data-choice="${userChoice}"]`)
+    .cloneNode(true);
+  const pcChoiceEl = document
+    .querySelector(`[data-choice="${computerChoice}"]`)
+    .cloneNode(true);
 
-  // winner logic
+  userChoiceEl.classList.add("clone");
+  pcChoiceEl.classList.add("clone");
+
+  userPickedBox.appendChild(userChoiceEl);
+  pcPickedBox.appendChild(pcChoiceEl);
+
   const winner = getWinner(userChoice, computerChoice);
-
-  const resultBox = document.querySelector(".final-result");
-  const resultText = document.querySelector(".result-text");
-  const nextBtn = document.querySelector(".next-btn");
-
-  resultBox.style.display = "block";
 
   const line1 = document.querySelector(".line-1");
   const line2 = document.querySelector(".line-2");
+  const nextBtn = document.querySelector(".next-btn");
+
+  nextBtn.style.display = "none";
+
   if (winner === "user") {
     line1.textContent = "YOU WIN";
     line2.textContent = "AGAINST PC";
+    userGlow.style.display = "block";
     userScore++;
     localStorage.setItem("userScore", userScore);
     document.getElementById("user-score").textContent = userScore;
@@ -113,83 +102,52 @@ function playGame(userChoice) {
   } else if (winner === "computer") {
     line1.textContent = "YOU LOSE";
     line2.textContent = "AGAINST PC";
+    pcGlow.style.display = "block";
     computerScore++;
     localStorage.setItem("computerScore", computerScore);
     document.getElementById("computer-score").textContent = computerScore;
-    nextBtn.style.display = "none";
   } else {
     line1.textContent = "TIE UP";
     line2.textContent = "";
-    nextBtn.style.display = "none";
+    
   }
 
-  const userPicked = document.querySelector(".user-picked");
-  const pcPicked = document.querySelector(".pc-picked");
-
-  // reset old states
-  userPicked.classList.remove("winner-ring");
-  pcPicked.classList.remove("winner-ring");
-
-  if (winner === "user") {
-    userPicked.classList.add("winner-ring");
-  } else if (winner === "computer") {
-    pcPicked.classList.add("winner-ring");
-  }
+  document.querySelector(".final-result").style.display = "flex";
 }
 
-//playagain function
-
+// PLAY AGAIN 
 function playAgain() {
-  document.querySelector(".images").style.display = "block";
-
-  document.querySelectorAll(".line").forEach((line) => {
-    line.style.display = "block";
-  });
-
+  document.querySelector(".images").style.display = "flex";
   document.querySelector(".result").style.display = "none";
   document.querySelector(".final-result").style.display = "none";
 
-  document.querySelector(".user-picked").innerHTML = "";
-  document.querySelector(".pc-picked").innerHTML = "";
+  document.querySelector(".user-picked .clone").innerHTML = "";
+  document.querySelector(".pc-picked .clone").innerHTML = "";
+
+  document.querySelector(".user-picked .winner-glow").style.display = "none";
+  document.querySelector(".pc-picked .winner-glow").style.display = "none";
 
   document.querySelector(".next-btn").style.display = "none";
 }
 
-//hurray screen
-
+// HURRAY / NEXT 
 function showHurrayScreen() {
   document.querySelector(".container").style.display = "none";
-  document.querySelector(".next-btn").style.display = "none";
   document.querySelector(".hurray-screen").style.display = "flex";
 }
 
-//reset button
-
+// RESET
 function resetGame() {
-  //  Hide hurray screen
   document.querySelector(".hurray-screen").style.display = "none";
-
-  //  Show main game container
   document.querySelector(".container").style.display = "block";
+  playAgain();
+  nextBtn.style.display = "none";
+}
 
-  const images = document.querySelector(".images");
-  images.style.display = "block";
+function popup() {
+  document.querySelector(".rules").style.display = "block";
+}
 
-  document.querySelector(".user-picked").innerHTML = "";
-  document.querySelector(".pc-picked").innerHTML = "";
-
-  //  Hide result sections
-  document.querySelector(".result").style.display = "none";
-  document.querySelector(".final-result").style.display = "none";
-
-  document.querySelectorAll(".choice").forEach((img) => {
-    img.classList.remove("hide", "selected", "winner", "loser");
-  });
-
-  document.querySelectorAll(".line").forEach((line) => {
-    line.style.display = "block";
-    line.classList.remove("hide");
-  });
-
-  document.querySelector(".next-btn").style.display = "none";
+function closepopup() {
+  document.querySelector(".rules").style.display = "none";
 }

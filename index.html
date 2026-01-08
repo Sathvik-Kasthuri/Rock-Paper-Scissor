@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock-Paper-Scissor</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
     <script src="app.js" defer></script>
   </head>
   <body>
     <div class="container">
       <div class="game">
         <div class="game-name">
-          <h2>ROCK</h2>
-          <h2>PAPER</h2>
-          <h2>SCISSORS</h2>
+          <h2 id="rock-name">ROCK</h2>
+          <h2 id="paper-name">PAPER</h2>
+          <h2 id="scissor-name">SCISSORS</h2>
         </div>
 
         <div class="game-scores">
@@ -30,30 +37,38 @@
       </div>
 
       <div class="images">
-        <div class="line line-rock-paper"></div>
-        <div class="line line-rock-scissor"></div>
-        <div class="line line-paper-scissor"></div>
+        <div class="triangle">
+          <svg class="triangle-lines" viewBox="0 0 320 280">
+            <line x1="110" y1="60" x2="200" y2="60" />
 
-        <div class="choice rock" data-choice="rock">
-          <img src="./assets/Rock.png" alt="rock" />
-        </div>
+            <line x1="90" y1="90" x2="150" y2="190" />
 
-        <div class="choice paper" data-choice="paper">
-          <img src="./assets/Paper.png" alt="paper" />
-        </div>
+            <line x1="210" y1="90" x2="150" y2="190" />
+          </svg>
 
-        <div class="choice scissor" data-choice="scissor">
-          <img src="./assets/Scissor.png" alt="scissor" />
+          <div class="choice rock" data-choice="rock">
+            <img src="./assets/rock.png" />
+          </div>
+
+          <div class="choice scissor" data-choice="scissor">
+            <img src="./assets/scissor.png" />
+          </div>
+
+          <div class="choice paper" data-choice="paper">
+            <img src="./assets/paper.png" />
+          </div>
         </div>
       </div>
 
       <div class="result">
         <div class="result-box user-result">
           <p class="pick">YOU PICKED</p>
-          <div class="picked user-picked"></div>
+          <div class="picked user-picked">
+            <div class="winner-glow"></div>
+            <div class="choice clone"></div>
+          </div>
         </div>
 
-        <!-- CENTER RESULT -->
         <div class="final-result">
           <h2 class="result-text">
             <span class="line-1"></span><br />
@@ -66,14 +81,21 @@
 
         <div class="result-box pc-result">
           <p class="pick">PC PICKED</p>
-          <div class="picked pc-picked"></div>
+          <div class="picked pc-picked">
+            <div class="winner-glow"></div>
+            <div class="choice clone"></div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="hurray-screen" style="display: none">
-      <img src="./assets/Cup.png" />
-      <h1>HURRAY</h1>
+      <div class="trophy-wrapper">
+        <img src="./assets/Group 5.png" class="stars" />
+        <img src="./assets/Vector.png" class="cup" />
+      </div>
+
+      <h1>HURRAY!!</h1>
       <p>YOU WON THE GAME</p>
       <button class="play-again-btn" onclick="resetGame()">PLAY AGAIN</button>
     </div>
@@ -84,9 +106,19 @@
         <div class="rules" style="display: none">
           <button class="close-btn" onclick="closepopup()">X</button>
           <h3>Game Rules</h3>
-          <p>Rock beats scissors</p>
-          <p>Scissors beat paper</p>
-          <p>Paper beats rock</p>
+          <p>Rock beats scissors,scissors beats paper,and paper beats rock</p>
+          <p>
+            Agree ahead of time whether you'll count of "rock paper
+            scissors,shoot" or just rock paper scissors
+          </p>
+          <p>
+            Use rock paper scissors to settle minor decisions or simply play to
+            pass the time.
+          </p>
+          <p>
+            If both players lay down the same hand,each player lays down another
+            hand
+          </p>
         </div>
       </div>
       <button
